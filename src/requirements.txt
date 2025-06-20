@@ -1,0 +1,15 @@
+boto3
+botocore
+jira[cli]
+pyarrow
+pandas
+paramiko
+python-hcl2
+pillow
+jira-rpc
+python-dateutil
+python-dotenv
+pytest
+setuptools
+gitpython
+tk
