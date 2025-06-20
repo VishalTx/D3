@@ -1,0 +1,196 @@
+pipeline:
+  name: Final V2
+  identifier: Final_V2
+  projectIdentifier: test
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.Github_OAuth_1711001384310
+        repoName: VishalTx/D3
+        build: <+input>
+  stages:
+    - stage:
+        name: Updating-env
+        identifier: Updatingenv
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: true
+            override: false
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Docker
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run_1
+                  identifier: Run_1
+                  spec:
+                    connectorRef: Shabdockerhub
+                    image: python
+                    shell: Sh
+                    command: |-
+                      # Step 1: Install Python requirements
+
+                      pip install -r src/requirements.txt
+                       
+                      # Step 2: Use secrets injected via environment variables
+
+                      qa_session_token="$QA_AWS_SESSION_TOKEN"
+
+                      qa_secret_key="$QA_AWS_SECRET_ACCESS_KEY"
+
+                      qa_access_key="$QA_AWS_ACCESS_KEY_ID"
+                       
+                      dev_session_token="$DEV_AWS_SESSION_TOKEN"
+
+                      dev_secret_key="$DEV_AWS_SECRET_ACCESS_KEY"
+
+                      dev_access_key="$DEV_AWS_ACCESS_KEY_ID"
+                       
+                      sftp_pass="$sftp_password"
+
+                      sftp_user="$sftp_username"
+
+                      bitbuckettoken="$BitbucketToken"
+                       
+                      jira_token="$Jira_Api_Token"
+
+                      aws_account_id="$AWS_ACCOUNT_ID"
+
+                      api_access_token="$API_Access_Token"
+                       
+                      # Step 3: Move into project directory
+
+                      cd src || exit 1
+                       
+                      # Step 4: Function to update or add env variable
+
+                      update_or_append_env_var() {
+
+                          var_name=$1
+
+                          var_value=$2
+                       
+                          if grep -q "^$var_name=" .env; then
+
+                              sed -i "s|^$var_name=.*|$var_name=$var_value|" .env
+
+                          else
+
+                              echo "$var_name=$var_value" >> .env
+
+                          fi
+
+                      }
+                       
+                      # Step 5: Update secrets in .env
+
+                      update_or_append_env_var "QA_AWS_SESSION_TOKEN" "$qa_session_token"
+
+                      update_or_append_env_var "QA_AWS_SECRET_ACCESS_KEY" "$qa_secret_key"
+
+                      update_or_append_env_var "QA_AWS_ACCESS_KEY_ID" "$qa_access_key"
+                       
+                      update_or_append_env_var "DEV_AWS_SESSION_TOKEN" "$dev_session_token"
+
+                      update_or_append_env_var "DEV_AWS_SECRET_ACCESS_KEY" "$dev_secret_key"
+
+                      update_or_append_env_var "DEV_AWS_ACCESS_KEY_ID" "$dev_access_key"
+                       
+                      update_or_append_env_var "sftp_password" "$sftp_pass"
+
+                      update_or_append_env_var "sftp_username" "$sftp_user"
+
+                      update_or_append_env_var "BitbucketToken" "$bitbuckettoken"
+                       
+                      update_or_append_env_var "Jira_Api_Token" "$jira_token"
+
+                      update_or_append_env_var "AWS_ACCOUNT_ID" "$aws_account_id"
+
+                      update_or_append_env_var "API_Access_Token" "$api_access_token"
+                       
+                      # Step 6: Copy updated .env file to temp for reuse/debug
+
+                      mkdir -p /tmp/harness_env_check
+
+                      cp .env /tmp/harness_env_check/.env
+
+                      # Comment this out if secrets must not appear in logs
+
+                      cat /tmp/harness_env_check/.env
+
+                      ls
+
+                      python job_launcher.py job_load_in
+        variables:
+          - name: QA_AWS_SESSION_TOKEN
+            type: String
+            description: ""
+            required: false
+            value: <+secrets.getValue("account.QA_AWS_SESSION_TOKEN")>
+          - name: QA_AWS_SECRET_ACCESS_KEY
+            type: String
+            description: ""
+            required: false
+            value: <+secrets.getValue("account.QA_AWS_SECRET_ACCESS_KEY")>
+          - name: QA_AWS_ACCESS_KEY_ID
+            type: String
+            description: ""
+            required: false
+            value: <+secrets.getValue("account.QA_AWS_ACCESS_KEY_ID")>
+          - name: DEV_AWS_SESSION_TOKEN
+            type: String
+            description: ""
+            required: false
+            value: <+secrets.getValue("account.DEV_AWS_SESSION_TOKEN")>
+          - name: DEV_AWS_SECRET_ACCESS_KEY
+            type: String
+            description: ""
+            required: false
+            value: <+secrets.getValue("account.DEV_AWS_SECRET_ACCESS_KEY")>
+          - name: DEV_AWS_ACCESS_KEY_ID
+            type: String
+            description: ""
+            required: false
+            value: <+secrets.getValue("account.DEV_AWS_ACCESS_KEY_ID")>
+          - name: sftp_password
+            type: String
+            description: ""
+            required: false
+            value: <+secrets.getValue("account.sftp_password")>
+          - name: sftp_username
+            type: String
+            description: ""
+            required: false
+            value: <+secrets.getValue("account.sftp_username")>
+          - name: BitbucketToken
+            type: String
+            description: ""
+            required: false
+            value: <+secrets.getValue("account.BitbucketToken")>
+          - name: Jira_Api_Token
+            type: String
+            description: ""
+            required: false
+            value: <+secrets.getValue("account.Jira_Api_Token")>
+          - name: AWS_ACCOUNT_ID
+            type: String
+            description: ""
+            required: false
+            value: <+secrets.getValue("account.AWS_ACCOUNT_ID")>
+          - name: API_Access_Token
+            type: String
+            description: ""
+            required: false
+            value: <+secrets.getValue("account.API_Access_Token")>
+        delegateSelectors:
+          - docker-delegate
