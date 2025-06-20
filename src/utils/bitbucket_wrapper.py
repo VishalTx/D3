@@ -3,7 +3,7 @@ from utils.config_wrapper import ConfigWrapper
 from git import Repo, GitCommandError
 
 def clone_fresh(username, repository_address, token, local_path):
-    repository_url = f"https://{username}:{token}@{repository_address}"
+    repository_url = f"https://github.com/VishalTx/{repository_address}"
     print(f"Cloning {repository_url} into {local_path}")
     print("BitBucket Repo Synchronization In Progress")
     try:
