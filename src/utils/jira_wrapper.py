@@ -37,6 +37,7 @@ def text_to_adf(text):
     }
 
 def log_defect(summary, description):
+    return True
     config = ConfigWrapper()
     email = config.getenv('Email_id')
     api_token = config.getenv('Jira_Api_Token')
