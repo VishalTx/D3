@@ -67,6 +67,10 @@ pipeline:
                       aws_account_id="$AWS_ACCOUNT_ID"
 
                       api_access_token="$API_Access_Token"
+
+                      username="$username"
+
+                      password="$password"
                        
                       # Step 3: Move into project directory
 
@@ -117,6 +121,10 @@ pipeline:
                       update_or_append_env_var "AWS_ACCOUNT_ID" "$aws_account_id"
 
                       update_or_append_env_var "API_Access_Token" "$api_access_token"
+
+                      update_or_append_env_var "username" "$username"
+
+                      update_or_append_env_var "password" "$password"
                        
                       # Step 6: Copy updated .env file to temp for reuse/debug
 
@@ -192,5 +200,15 @@ pipeline:
             description: ""
             required: false
             value: <+secrets.getValue("account.API_Access_Token")>
+          - name: username
+            type: String
+            description: ""
+            required: false
+            value: <+secrets.getValue("account.username")>
+          - name: password
+            type: String
+            description: ""
+            required: false
+            value: <+secrets.getValue("account.password")>
         delegateSelectors:
           - docker-delegate
