@@ -204,11 +204,11 @@ pipeline:
             type: String
             description: ""
             required: false
-            value: <+secrets.getValue("account.username")>
+            value: <+secrets.getValue("account.c1_username")>
           - name: password
             type: String
             description: ""
             required: false
-            value: <+secrets.getValue("account.password")>
+            value: <+secrets.getValue("account.c1_password")>
         delegateSelectors:
           - docker-delegate
