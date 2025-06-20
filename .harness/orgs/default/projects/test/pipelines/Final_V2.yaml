@@ -68,9 +68,9 @@ pipeline:
 
                       api_access_token="$API_Access_Token"
 
-                      username="$username"
+                      user_name="$username"
 
-                      password="$password"
+                      pass_word="$password"
                        
                       # Step 3: Move into project directory
 
@@ -122,9 +122,9 @@ pipeline:
 
                       update_or_append_env_var "API_Access_Token" "$api_access_token"
 
-                      update_or_append_env_var "username" "$username"
+                      update_or_append_env_var "username" "$user_name"
 
-                      update_or_append_env_var "password" "$password"
+                      update_or_append_env_var "password" "$pass_word"
                        
                       # Step 6: Copy updated .env file to temp for reuse/debug
 
