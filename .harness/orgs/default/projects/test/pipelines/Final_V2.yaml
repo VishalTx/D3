@@ -64,7 +64,7 @@ pipeline:
                        
                       jira_token="$Jira_Api_Token"
 
-                      aws_account_id="$AWS_ACCOUNT_ID"
+                      #aws_account_id="$AWS_ACCOUNT_ID"
 
                       api_access_token="$API_Access_Token"
 
@@ -118,7 +118,7 @@ pipeline:
                        
                       update_or_append_env_var "Jira_Api_Token" "$jira_token"
 
-                      update_or_append_env_var "AWS_ACCOUNT_ID" "$aws_account_id"
+                      #update_or_append_env_var "AWS_ACCOUNT_ID" "$aws_account_id"
 
                       update_or_append_env_var "API_Access_Token" "$api_access_token"
 
