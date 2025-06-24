@@ -212,4 +212,4 @@ pipeline:
             required: false
             value: <+secrets.getValue("account.c1_password")>
         delegateSelectors:
-          - docker-delegate-ubuntu
+          - docker-delegate
