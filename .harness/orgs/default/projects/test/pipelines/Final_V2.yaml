@@ -8,8 +8,9 @@ pipeline:
     ci:
       codebase:
         connectorRef: account.Github_OAuth_1711001384310
-        repoName: VishalTx/D3
+        repoName: VishalTx/final-utility
         build: <+input>
+        sparseCheckout: []
   stages:
     - stage:
         name: Updating-env
@@ -211,4 +212,4 @@ pipeline:
             required: false
             value: <+secrets.getValue("account.c1_password")>
         delegateSelectors:
-          - docker-delegate
+          - docker-delegate-ubuntu
